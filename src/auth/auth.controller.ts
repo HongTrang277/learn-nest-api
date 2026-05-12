@@ -1,0 +1,32 @@
+import { Controller, Post, Get, Body, Req, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
+import { ChangePasswordDto } from './dto/changePassword.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JWTAuthGuard } from './guards/jwt-auth.guard';
+
+@ApiTags('Auth')
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('login')
+  @UseGuards(LocalAuthGuard)
+  login(@Req() req) {
+    return this.authService.signToken(req.user);
+  }
+
+  @Get('me')
+  @ApiBearerAuth()
+  @UseGuards(JWTAuthGuard)
+  getMe(@Req() req) {
+    return req.user;
+  }
+
+  @Post('change-password')
+  @ApiBearerAuth()
+  @UseGuards(JWTAuthGuard)
+  changePassword(@Req() req, @Body() changePasswordDto: ChangePasswordDto) {
+    return this.authService.changePassword(req.user.sub, changePasswordDto);
+  }
+}
