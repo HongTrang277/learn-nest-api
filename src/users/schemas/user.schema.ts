@@ -18,6 +18,9 @@ export class User extends Document {
 
     @Prop({default: false}) 
     isDeleted: boolean;
+
+    @Prop({ default: 'user', enum: ['user', 'admin'] })
+    role: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User); 
