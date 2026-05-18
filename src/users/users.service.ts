@@ -14,7 +14,8 @@ export class UsersService {
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
         const newUser = new this.userModel({
             ...createUserDto,
-            password: hashedPassword, 
+            password: hashedPassword,
+            role: 'user', 
         });
         return newUser.save();
     }
@@ -47,5 +48,11 @@ export class UsersService {
         ).exec();
     }
 
-    
+    async updateRole(id: string, role: string): Promise<User> {
+        return this.userModel.findByIdAndUpdate(
+            id,
+            { role },
+            { new: true }
+        ).select('-password').exec();
+    }
 }

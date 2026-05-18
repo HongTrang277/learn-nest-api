@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import { LicensesModule } from './licenses/licenses.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -8,7 +9,10 @@ import { simpleLoggerMiddleware } from './middlewares/simple-logger.middleware';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://ihchang277_db_user:d2CazcSvuISJNYCk@cluster0.haly2hc.mongodb.net/?appName=Cluster0'),
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({ uri: process.env.MONGODB_URI }),
+    }),
     LicensesModule,
     AuthModule,
     UsersModule,

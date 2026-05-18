@@ -1,7 +1,7 @@
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { Strategy } from "passport-local";
-import { UsersService } from "src/users/users.service";
+import { UsersService } from "../../users/users.service";
 import * as bcrypt from "bcrypt";
 import { UnauthorizedException } from "@nestjs/common";
 
@@ -21,6 +21,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         if (!(await bcrypt.compare(password, user.password))) {
             throw new UnauthorizedException('Sai mật khẩu cũ!');
         }
-        return { sub: user._id, username: user.username };
+        return { sub: user._id, username: user.username, role: user.role };
     }
 }

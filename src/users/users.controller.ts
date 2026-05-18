@@ -1,8 +1,10 @@
-import {Controller, Get, Post, Body, Param, Put, Delete, UseGuards} from '@nestjs/common';
+import {Controller, Get, Post, Body, Param, Put, Delete, UseGuards, Patch, Req, ForbiddenException} from '@nestjs/common';
 import {UsersService} from './users.service';
 import {CreateUserDto} from './dto/create-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { JWTAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JWTAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -14,7 +16,8 @@ export class UsersController {
     }
 
     @ApiBearerAuth()
-    @UseGuards(JWTAuthGuard)
+    @Roles('admin')
+    @UseGuards(JWTAuthGuard, RolesGuard)
     @Get()
     findAll() {
         return this.usersService.findAll();
@@ -36,7 +39,18 @@ export class UsersController {
     @ApiBearerAuth()
     @UseGuards(JWTAuthGuard)
     @Delete(':id')
-    remove(@Param('id') id: string) {
+    remove(@Param('id') id: string, @Req() req) {
+        if (req.user.role !== 'admin' && req.user.sub.toString() !== id) {
+            throw new ForbiddenException('Bạn không có quyền xóa tài khoản này!');
+        }
         return this.usersService.remove(id);
+    }
+
+    @ApiBearerAuth()
+    @Roles('admin')
+    @UseGuards(JWTAuthGuard, RolesGuard)
+    @Patch(':id/role')
+    updateRole(@Param('id') id: string, @Body('role') role: string) {
+        return this.usersService.updateRole(id, role);
     }
 }

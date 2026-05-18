@@ -22,7 +22,7 @@ export class AuthService {
       throw new UnauthorizedException('Sai username hoặc password!');
     }
 
-    const payload = { sub: user._id, username: user.username };
+    const payload = { sub: user._id, username: user.username, role: user.role };
 
     // Ký JWT và trả về accessToken
     const accessToken = await this.jwtService.signAsync(payload);
@@ -46,8 +46,8 @@ export class AuthService {
     return { message: 'Đổi mật khẩu thành công!' };
   }
 
-  async signToken(user: { sub: any; username: string }): Promise<{ accessToken: string }> {
-    const payload = { sub: user.sub, username: user.username };
+  async signToken(user: { sub: any; username: string; role?: string }): Promise<{ accessToken: string }> {
+    const payload = { sub: user.sub, username: user.username, role: user.role };
     const accessToken = await this.jwtService.signAsync(payload);
     return { accessToken };
   }
