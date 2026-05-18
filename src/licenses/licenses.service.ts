@@ -2,8 +2,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { License } from './schemas/license.schema';
-import { CreateLicenseDto } from './dto/create-license.dto';
+import { License } from '@/licenses/schemas/license.schema';
+import { CreateLicenseDto } from '@/licenses/dto/create-license.dto';
 
 @Injectable()
 export class LicensesService {

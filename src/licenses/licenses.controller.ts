@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { LicensesService } from './licenses.service';
-import { CreateLicenseDto } from './dto/create-license.dto';
-import { JWTAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { LicensesService } from '@/licenses/licenses.service';
+import { CreateLicenseDto } from '@/licenses/dto/create-license.dto';
+import { JWTAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@/auth/guards/roles.guard';
+import { Roles } from '@/auth/decorators/roles.decorator';
 @ApiTags('Licenses') 
 @ApiBearerAuth()      
 @Controller('licenses')
