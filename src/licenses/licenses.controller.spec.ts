@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LicensesController } from './licenses.controller';
+import { LicensesController } from '@/licenses/licenses.controller';
 
 describe('LicensesController', () => {
   let controller: LicensesController;

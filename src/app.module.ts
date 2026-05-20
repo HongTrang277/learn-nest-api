@@ -1,11 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { LicensesModule } from './licenses/licenses.module';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { simpleLoggerMiddleware } from './middlewares/simple-logger.middleware';
+import { LicensesModule } from '@/licenses/licenses.module';
+import { AuthModule } from '@/auth/auth.module';
+import { UsersModule } from '@/users/users.module';
+import { LoggerMiddleware } from '@/middlewares/logger.middleware';
+import { simpleLoggerMiddleware } from '@/middlewares/simple-logger.middleware';
 
 @Module({
   imports: [
